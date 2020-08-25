@@ -1,0 +1,12 @@
+// https://superuser.com/questions/278855/a-linux-program-that-uses-memory
+#include <stdlib.h>
+
+int main() {
+    int *p;
+
+    while(1) {
+        int inc = 1024 * 1024 * sizeof(char);
+        p = (int*) calloc(1, inc);
+        if (!p) break;
+    }
+}

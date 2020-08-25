@@ -1,0 +1,17 @@
+name: Test OOM condition
+on: [push]
+jobs:
+  run:
+    strategy:
+      matrix:
+        dummy1: ['1', '2', '3', '4', '5', '6', '7']
+        dummy2: ['1', '2', '3']
+        exclude:
+          - dummy1: '7'
+            dummy2: '1'
+      fail-fast: false
+    steps:
+      - run: free -m
+      - run: cat /proc/swaps
+      - run: gcc oom.c
+      - run: ./a.out & { while true; do free -m; cat /proc/swaps; echo; sleep 5; done; }
