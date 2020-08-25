@@ -12,6 +12,7 @@ jobs:
             dummy2: '1'
       fail-fast: false
     steps:
+      - uses: actions/checkout@v2
       - run: free -m
       - run: cat /proc/swaps
       - run: gcc oom.c
