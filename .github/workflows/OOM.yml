@@ -3,17 +3,23 @@ on: [push]
 jobs:
   run:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dummy1: ['1', '2', '3', '4', '5', '6', '7']
-        dummy2: ['1', '2', '3']
-        exclude:
-          - dummy1: '7'
-            dummy2: '1'
-      fail-fast: false
+    # strategy:
+    #   matrix:
+    #     dummy1: ['1', '2', '3', '4', '5', '6', '7']
+    #     dummy2: ['1', '2', '3']
+    #     exclude:
+    #       - dummy1: '7'
+    #         dummy2: '1'
+    #   fail-fast: false
     steps:
       - uses: actions/checkout@v2
       - run: free -m
       - run: cat /proc/swaps
       - run: gcc oom.c
-      - run: ./a.out & { while true; do free -m; cat /proc/swaps; echo; sleep 5; done; }
+      - run: |
+          ./a.out & pid=$!;
+          { while kill -0 $pid 2>/dev/null; do
+              free -m; echo;
+              cat /proc/swaps; echo;
+              sleep 5;
+            done; }
