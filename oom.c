@@ -6,6 +6,7 @@ int main() {
     size_t amount = 1;
 
     while(1) {
+        printf("Allocating: %zu bytes\n", amount);
         p = (char*) calloc(1, amount);
         if (p)
             amount *= 2;
